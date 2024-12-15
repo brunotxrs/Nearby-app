@@ -6,8 +6,10 @@ import { s } from "./styles"
 export function Step(){
     return(
         <View style={s.container}>
-            <Text>Titulo</Text>
-            <Text>Descrição ...</Text>
+            <View style={s.details}>
+            <Text style={s.title}>Titulo</Text>
+            <Text style={s.description}>Descrição ...</Text>
+            </View>
         </View>
     )
 }
