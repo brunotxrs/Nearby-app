@@ -1,9 +1,23 @@
-import { View } from "react-native";
+import { FlatList } from "react-native";
 
 import { Category } from "../category";
 
-export function Categories(){
-    return(<View>
-        <Category name="Teste"/>
-    </View>)
+export type CategoriesProps = {
+    id: string
+    name: string
+}[]
+
+type Props = {
+    data: CategoriesProps
+}
+
+export function Categories({ data }: Props){
+  return(
+        <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({item}) => <Category name={item.name}
+        iconId={item.id}/>}  
+        />
+    )
 }
