@@ -1,10 +1,14 @@
 import {View } from "react-native"
 import { s } from "./styles"
+
+import { Place, PlaceProps } from "../place"
+
 type Props = {
-    data: []
+    data: PlaceProps[]
 }
 
-export function Place({ data }: Props){
+export function Places({ data }: Props){
+
     return (
         <View>
             
