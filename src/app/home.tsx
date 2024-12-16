@@ -3,9 +3,10 @@ import { View, Alert } from "react-native";
 
 import { api } from "@/services/api";
 
+import { Categories } from "@/components/categories";
+
 export default function Home(){
     const [categories, setCategories] = useState()
-
 
     async function fetchCategories() {
         try {
@@ -21,5 +22,9 @@ export default function Home(){
         fetchCategories()
     },[])
 
-    return(<View style={{ flex: 1 }}></View>)
+    return(
+    <View style={{ flex: 1 }}>
+        <Categories />
+    </View>
+    )
 }
