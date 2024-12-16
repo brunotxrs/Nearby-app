@@ -32,7 +32,7 @@ export default function Home() {
                 return
             }
 
-            const { data } = await api.get("/markets/category" + category)
+            const { data } = await api.get("/markets/category/" + category)
             setMarkets(data)
         } catch (error) {
             console.log(error)
@@ -49,7 +49,7 @@ export default function Home() {
     }, [category])
 
     return(
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#CECECE" }}>
         <Categories data={categories}  onSelect={setCategory} selected={category}/>
 
         <Places data={markets} />
