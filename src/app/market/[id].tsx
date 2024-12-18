@@ -38,7 +38,8 @@ export default function Market(){
             Alert.alert("Erro", "Não foi possível carregar os dados", [
                 { 
                     text: "OK", 
-                    onPress: () => router.back()},
+                    onPress: () => router.back(),
+                },
             ])  
         }        
     }
@@ -79,7 +80,9 @@ export default function Market(){
     function handleUseCoupon(id: string){
         setIsVisibleCameraModal(false)
 
-        Alert.alert("Cupom", "Não é possível reutilizar um cupom resgatado. Deseja realmente resgatar o cupom?",
+        Alert.alert(
+            "Cupom", 
+            "Não é possível reutilizar um cupom resgatado. Deseja realmente resgatar o cupom?",
             [
                 { style: "cancel", text: "Não"},
                 { text: "Sim", onPress: () => getCoupon(id)},
@@ -93,13 +96,12 @@ export default function Market(){
 
 
     if(isLoading){
-        return(
-            <Loading />
-        )
+        return <Loading />
+        
     }
 
     if(!data){
-        return(<Redirect href="/home" />)
+        return <Redirect href="/home" />
     }
 
     return (
@@ -119,7 +121,8 @@ export default function Market(){
             </View>
 
             <Modal style={{ flex: 1 }} visible={isVisibleCameraModal}>
-                <CameraView style={{flex: 1}} 
+                <CameraView 
+                style={{flex: 1}} 
                 facing="back"
                 onBarcodeScanned={({ data }) => {
                     if(data && !qrLock.current){
@@ -130,7 +133,9 @@ export default function Market(){
                 />
 
                 <View style={{ position: "absolute", bottom: 32, left: 32, right: 32 }}>
-                <Button onPress={() => setIsVisibleCameraModal(false)} isLoading={couponIsFetching}>
+                <Button 
+                onPress={() => setIsVisibleCameraModal(false)} 
+                isLoading={couponIsFetching}>
                     <Button.Title>Voltar</Button.Title>
                 </Button>
                 </View>
