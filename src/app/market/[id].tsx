@@ -15,6 +15,7 @@ cover: string
 
 export default function Market(){
     const [data, setData] = useState<DataProps>()
+    const [coupon, setCoupon] = useState<string | null>(null) 
     const [isLoading, setIsLoading] = useState(true)
 
     const params = useLocalSearchParams<{ id: string }>()
@@ -54,7 +55,7 @@ export default function Market(){
         <View style={{ flex: 1 }}>
             <Cover uri={data?.cover} />
             <Details data={data} />
-            <Coupon code="FM4345T6" />
+            {coupon && <Coupon code={coupon} />}
         </View>
     )
 }
