@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert, View, Modal } from "react-native";
 import { router, useLocalSearchParams, Redirect } from "expo-router"
 
+import { Button } from "@/components/button";
 import { Loading } from "@/components/loading"
 import { Cover } from "@/components/market/cover";
 import { Coupon } from "@/components/market/coupon";
@@ -17,6 +18,7 @@ export default function Market(){
     const [data, setData] = useState<DataProps>()
     const [coupon, setCoupon] = useState<string | null>(null) 
     const [isLoading, setIsLoading] = useState(true)
+    const [isVisibleCameraModal, setIsVisibleCameraModal] = useState(false)
 
     const params = useLocalSearchParams<{ id: string }>()
 
@@ -35,6 +37,14 @@ export default function Market(){
         }        
     }
 
+
+    function handleOpenCamera(){
+        try {
+            setIsVisibleCameraModal(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         fetchMarket()
@@ -56,6 +66,20 @@ export default function Market(){
             <Cover uri={data?.cover} />
             <Details data={data} />
             {coupon && <Coupon code={coupon} />}
+
+            <View style={{ padding: 32}}>
+                <Button onPress={handleOpenCamera}>
+                    <Button.Title>Ler QR Code</Button.Title>
+                </Button>
+            </View>
+
+            <Modal style={{ flex: 1 }} visible={isVisibleCameraModal}>
+                <View style={{flex: 1, justifyContent: "center"}}>
+                <Button onPress={() => setIsVisibleCameraModal(false)}>
+                    <Button.Title>Voltar</Button.Title>
+                </Button>
+                </View>
+            </Modal>
         </View>
     )
 }
