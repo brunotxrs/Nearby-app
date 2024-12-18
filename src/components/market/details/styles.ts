@@ -13,12 +13,14 @@ export const s = StyleSheet.create({
         fontSize: 20,
         fontFamily: fontFamily.bold,
         color: colors.gray[600],
-        marginBottom: 12,
     },
     description: {
         fontSize: 16,
         fontFamily: fontFamily.regular,
         color: colors.gray[500],
+        marginTop: 12,
+        marginBottom: 32,
+        lineHeight: 22,
     },
     group: {
         width: "100%",
