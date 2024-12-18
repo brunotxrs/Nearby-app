@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Alert, View, Modal } from "react-native";
+import { Alert, View, Modal, StatusBar , ScrollView } from "react-native";
 import { router, useLocalSearchParams, Redirect } from "expo-router"
 import {useCameraPermissions, CameraView } from "expo-camera"
 
@@ -26,6 +26,7 @@ export default function Market(){
     const params = useLocalSearchParams<{ id: string }>()
 
     const qrLock = useRef(false)
+    console.log(params.id)
 
     async function fetchMarket() {
         try {
@@ -51,6 +52,7 @@ export default function Market(){
                 return Alert.alert("Câmera", "Você precisa habilitar o uso da câmera")
             }
 
+            qrLock.current = false
             setIsVisibleCameraModal(true)
         } catch (error) {
             console.log(error)
@@ -74,9 +76,20 @@ export default function Market(){
         }
     }
 
+    function handleUseCoupon(id: string){
+        setIsVisibleCameraModal(false)
+
+        Alert.alert("Cupom", "Não é possível reutilizar um cupom resgatado. Deseja realmente resgatar o cupom?",
+            [
+                { style: "cancel", text: "Não"},
+                { text: "Sim", onPress: () => getCoupon(id)},
+            ]
+        )
+    }
+
     useEffect(() => {
         fetchMarket()
-    }, [params.id])
+    }, [params.id, coupon])
 
 
     if(isLoading){
@@ -91,9 +104,13 @@ export default function Market(){
 
     return (
         <View style={{ flex: 1 }}>
-            <Cover uri={data?.cover} />
+            <StatusBar  barStyle="light-content" hidden={isVisibleCameraModal} />
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+            <Cover uri={data.cover} />
             <Details data={data} />
             {coupon && <Coupon code={coupon} />}
+            </ScrollView>
 
             <View style={{ padding: 32}}>
                 <Button onPress={handleOpenCamera}>
@@ -107,7 +124,7 @@ export default function Market(){
                 onBarcodeScanned={({ data }) => {
                     if(data && !qrLock.current){
                         qrLock.current = true
-                        setTimeout(() => console.log(data), 500)
+                        setTimeout(() => handleUseCoupon(data), 500)
                     }
                 }}
                 />
